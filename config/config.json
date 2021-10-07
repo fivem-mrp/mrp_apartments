@@ -6,6 +6,7 @@
         }
     },
     "doorDistance": 2.0,
+    "tpFadeTime": 400,
     "interiors": [
         {
             "name": "pinkCage",
@@ -21,7 +22,8 @@
                 "z": -99.014,
                 "heading": 348.661
             },
-            "unique": false
+            "unique": false,
+            "requiresKey": true
         }
     ]
 }

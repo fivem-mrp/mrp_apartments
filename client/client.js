@@ -6,6 +6,8 @@ while (MRP_CLIENT == null) {
     print('Waiting for shared object....');
 }
 
+eval(LoadResourceFile('mrp_core', 'client/helpers.js'));
+
 const configFile = LoadResourceFile(GetCurrentResourceName(), 'config/config.json');
 
 const config = JSON.parse(configFile);
@@ -67,10 +69,8 @@ on('__cfx_nui:enter', (data, cb) => {
 
     let loc = data.location;
     if (loc) {
-        let ped = PlayerPedId();
-
-        //port
-        MRP_CLIENT.portToLocation(ped, loc.exit);
+        DoScreenFadeOut(config.tpFadeTime);
+        emitNet('mrp:apartments:server:enter', loc);
     }
 });
 
@@ -80,9 +80,30 @@ on('__cfx_nui:exit', (data, cb) => {
 
     let loc = data.location;
     if (loc) {
-        let ped = PlayerPedId();
-
-        //port
-        MRP_CLIENT.portToLocation(ped, loc.entrance);
+        DoScreenFadeOut(config.tpFadeTime);
+        emitNet('mrp:apartments:server:exit', loc);
     }
+});
+
+let portTo = async (loc) => {
+    thirdMenuAdded = false;
+    emit('mrp:thirdeye:removeMenuItem', {
+        id: 'use_apartment_doors'
+    });
+
+    let ped = PlayerPedId();
+
+    //port
+    MRP_CLIENT.portToLocation(ped, loc);
+
+    DoScreenFadeIn(config.tpFadeTime);
+    await utils.sleep(config.tpFadeTime * 2);
+};
+
+onNet('mrp:apartments:client:enter', (loc) => {
+    portTo(loc.exit);
+});
+
+onNet('mrp:apartments:client:exit', (loc) => {
+    portTo(loc.entrance);
 });
