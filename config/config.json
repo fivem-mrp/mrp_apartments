@@ -1,0 +1,27 @@
+{
+    "locale": {
+        "en": {
+            "enterHelpText": "Enter building",
+            "exitHelpText": "Exit building"
+        }
+    },
+    "doorDistance": 2.0,
+    "interiors": [
+        {
+            "name": "pinkCage",
+            "entrance": {
+                "x": 313.186,
+                "y": -198.263,
+                "z": 54.217,
+                "heading": 238.110
+            },
+            "exit": {
+                "x": 151.331,
+                "y": -1007.815,
+                "z": -99.014,
+                "heading": 348.661
+            },
+            "unique": false
+        }
+    ]
+}
